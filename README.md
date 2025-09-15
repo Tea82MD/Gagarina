@@ -38,9 +38,10 @@
 ```
 Gagarina/
 ├── index.html              # Оригинальный HTML файл
+├── index_fixed.html        # Исправленная оригинальная версия с мини-галереей ⭐
 ├── index_responsive.html   # Улучшенная адаптивная версия
 ├── index_simple.html       # Простая версия
-├── index_with_gallery.html # Версия с галереей (рекомендуется) ⭐
+├── index_with_gallery.html # Версия с полной галереей (рекомендуется) ⭐
 ├── images/                 # Папка с фотографиями
 │   ├── Фасад1.png         # Фасад торгового центра
 │   ├── DSC07977.jpg       # Фотографии помещений
@@ -56,6 +57,7 @@ Gagarina/
 
 ### Онлайн версии:
 - **Версия с галереей:** https://tea82md.github.io/Gagarina/index_with_gallery.html ⭐ **Рекомендуется**
+- **Исправленная оригинальная:** https://tea82md.github.io/Gagarina/index_fixed.html ⭐ **С мини-галереей**
 - **Простая версия:** https://tea82md.github.io/Gagarina/index_simple.html
 - **Адаптивная версия:** https://tea82md.github.io/Gagarina/index_responsive.html
 - **Основная версия:** https://tea82md.github.io/Gagarina/
@@ -67,19 +69,25 @@ Gagarina/
    open index_with_gallery.html
    ```
 
-2. **Простая версия:**
+2. **Исправленная оригинальная (с мини-галереей):**
+   ```bash
+   # Откройте index_fixed.html в браузере
+   open index_fixed.html
+   ```
+
+3. **Простая версия:**
    ```bash
    # Откройте index_simple.html в браузере
    open index_simple.html
    ```
 
-3. **Адаптивная версия:**
+4. **Адаптивная версия:**
    ```bash
    # Откройте index_responsive.html для улучшенной адаптивности
    open index_responsive.html
    ```
 
-4. **Оригинальная версия:**
+5. **Оригинальная версия:**
    ```bash
    # Откройте index.html в браузере
    open index.html
