@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажа коммерческой недвижимости - ТЦ Гагаринский, Ярославль</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    
+    <style>
+        /* Сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Заголовок */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Навигация */
+        .nav {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .nav a {
+            color: #495057;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        /* Основной контент */
+        .main {
+            padding: 3rem 0;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        /* Карточки */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h3 {
+            color: #007bff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        /* Форма */
+        .form {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form input,
+        .form textarea,
+        .form select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form input:focus,
+        .form textarea:focus,
+        .form select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        /* Футер */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer a {
+            color: #74b9ff;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .main {
+                padding: 2rem 0;
+            }
+            
+            .section h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .form {
+                padding: 1rem;
+            }
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Улучшения доступности */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Фокус для клавиатурной навигации */
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Заголовок -->
+    <header class="header">
+        <div class="container">
+            <h1>ТЦ Гагаринский</h1>
+            <p>Продажа коммерческой недвижимости в Ярославле</p>
+        </div>
+    </header>
+    
+    <!-- Навигация -->
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#properties">Объекты</a></li>
+                <li><a href="#contact">Контакты</a></li>
+                <li><a href="#form">Оставить заявку</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Основной контент -->
+    <main class="main">
+        <div class="container">
+            <!-- О нас -->
+            <section id="about" class="section">
+                <h2>О торговом центре "Гагаринский"</h2>
+                <p style="text-align: center; font-size: 1.1rem; color: #6c757d; max-width: 800px; margin: 0 auto;">
+                    Современный торговый центр в центре Ярославля предлагает выгодные условия для аренды 
+                    коммерческих помещений. Удобное расположение, развитая инфраструктура и высокий 
+                    трафик покупателей делают наш ТЦ идеальным местом для вашего бизнеса.
+                </p>
+            </section>
+            
+            <!-- Объекты -->
+            <section id="properties" class="section">
+                <h2>Доступные объекты</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Торговые площади</h3>
+                        <p>Просторные торговые залы от 50 до 500 м² с современным дизайном и удобной планировкой.</p>
+                        <div class="price">от 1 500 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Офисные помещения</h3>
+                        <p>Комфортные офисы с панорамными окнами, кондиционированием и современными коммуникациями.</p>
+                        <div class="price">от 2 000 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Складские помещения</h3>
+                        <p>Функциональные складские зоны с удобными подъездными путями и системами хранения.</p>
+                        <div class="price">от 800 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Форма обратной связи -->
+            <section id="form" class="section">
+                <h2>Оставить заявку</h2>
+                <form class="form" action="#" method="post">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="property-type">Тип помещения</label>
+                        <select id="property-type" name="property-type">
+                            <option value="">Выберите тип</option>
+                            <option value="retail">Торговые площади</option>
+                            <option value="office">Офисные помещения</option>
+                            <option value="warehouse">Складские помещения</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="area">Площадь (м²)</label>
+                        <input type="number" id="area" name="area" min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Дополнительная информация</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Расскажите о ваших требованиях..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Отправить заявку</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>ТЦ Гагаринский</strong></p>
+            <p>Ярославль, ул. Гагарина, д. 1</p>
+            <p>Телефон: <a href="tel:+74852234567">+7 (4852) 23-45-67</a></p>
+            <p>Email: <a href="mailto:info@gagarinsky.ru">info@gagarinsky.ru</a></p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                © 2024 ТЦ Гагаринский. Все права защищены.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // Простая JavaScript функциональность
+        document.addEventListener('DOMContentLoaded', function() {
+            // Плавная прокрутка для ссылок навигации
+            const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Обработка формы
+            const form = document.querySelector('.form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Получаем данные формы
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+                    
+                    // Простая валидация
+                    if (!data.name || !data.phone) {
+                        alert('Пожалуйста, заполните обязательные поля (имя и телефон)');
+                        return;
+                    }
+                    
+                    // Имитация отправки
+                    alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+                    this.reset();
+                });
+            }
+            
+            // Добавляем класс для определения типа устройства
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile-device');
+            } else {
+                document.body.classList.add('desktop-device');
+            }
+            
+            // Обработка изменения размера окна
+            window.addEventListener('resize', function() {
+                if (window.innerWidth <= 768) {
+                    document.body.classList.remove('desktop-device');
+                    document.body.classList.add('mobile-device');
+                } else {
+                    document.body.classList.remove('mobile-device');
+                    document.body.classList.add('desktop-device');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
