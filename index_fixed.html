@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продажа коммерческой недвижимости - ТЦ Гагаринский, Ярославль</title>
+    <script type="module" crossorigin src="./assets/index-niiK0gTO.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-AduXEllq.css">
+    
+    <!-- Дополнительные стили для мини-галереи -->
+    <style>
+      /* Стили для мини-галереи */
+      .mini-gallery {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        max-width: 300px;
+        transition: all 0.3s ease;
+      }
+      
+      .mini-gallery.collapsed {
+        transform: translateY(calc(100% - 50px));
+        overflow: hidden;
+      }
+      
+      .gallery-toggle {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        width: 100%;
+        margin-bottom: 10px;
+        transition: background 0.3s ease;
+      }
+      
+      .gallery-toggle:hover {
+        background: #0056b3;
+      }
+      
+      .gallery-toggle.collapsed {
+        margin-bottom: 0;
+      }
+      
+      .gallery-thumbnails {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 5px;
+        max-height: 200px;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+      }
+      
+      .gallery-thumbnails.collapsed {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+      
+      .thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 2px solid transparent;
+      }
+      
+      .thumbnail:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        border-color: #007bff;
+      }
+      
+      /* Модальное окно для просмотра */
+      .photo-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        animation: fadeIn 0.3s ease;
+      }
+      
+      .modal-content {
+        position: relative;
+        margin: auto;
+        padding: 0;
+        width: 90%;
+        max-width: 800px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+      .modal-photo {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        max-height: 80vh;
+        object-fit: contain;
+      }
+      
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2001;
+      }
+      
+      .modal-close:hover {
+        color: #bbb;
+      }
+      
+      .modal-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+      }
+      
+      .modal-prev {
+        left: 20px;
+      }
+      
+      .modal-next {
+        right: 20px;
+      }
+      
+      .modal-nav:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      
+      .modal-info {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      /* Адаптивность для мобильных */
+      @media (max-width: 768px) {
+        .mini-gallery {
+          bottom: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+        }
+        
+        .gallery-thumbnails {
+          grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        }
+        
+        .thumbnail {
+          width: 50px;
+          height: 50px;
+        }
+        
+        .modal-content {
+          width: 95%;
+        }
+        
+        .modal-nav {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+        }
+        
+        .modal-prev {
+          left: 10px;
+        }
+        
+        .modal-next {
+          right: 10px;
+        }
+      }
+      
+      /* Скрытие на очень маленьких экранах */
+      @media (max-width: 480px) {
+        .mini-gallery {
+          bottom: 5px;
+          right: 5px;
+          left: 5px;
+          padding: 5px;
+        }
+        
+        .gallery-thumbnails {
+          grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+          gap: 3px;
+        }
+        
+        .thumbnail {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <manus-content-root></manus-content-root>
+    
+    <!-- Мини-галерея -->
+    <div class="mini-gallery" id="miniGallery">
+      <button class="gallery-toggle" id="galleryToggle">📸 Фотогалерея</button>
+      <div class="gallery-thumbnails" id="galleryThumbnails">
+        <!-- Миниатюры будут добавлены JavaScript -->
+      </div>
+    </div>
+    
+    <!-- Модальное окно для просмотра фотографий -->
+    <div class="photo-modal" id="photoModal">
+      <span class="modal-close" id="modalClose">&times;</span>
+      <button class="modal-nav modal-prev" id="modalPrev">‹</button>
+      <button class="modal-nav modal-next" id="modalNext">›</button>
+      <div class="modal-content">
+        <img class="modal-photo" id="modalPhoto" src="" alt="">
+        <div class="modal-info" id="modalInfo"></div>
+      </div>
+    </div>
+    
+    <script>
+      // Список изображений
+      const images = [
+        { src: './images/Фасад1.png', alt: 'Фасад торгового центра Гагаринский' },
+        { src: './images/DSC07977.jpg', alt: 'Внутренний вид торгового центра' },
+        { src: './images/DSC07978.jpg', alt: 'Торговые площади' },
+        { src: './images/DSC07995.jpg', alt: 'Офисные помещения' },
+        { src: './images/DSC08009.jpg', alt: 'Современный дизайн интерьера' },
+        { src: './images/DSC08010.jpg', alt: 'Торговые залы' },
+        { src: './images/DSC08011.jpg', alt: 'Просторные помещения' },
+        { src: './images/DSC08012.jpg', alt: 'Коммерческие площади' },
+        { src: './images/DSC08014.jpg', alt: 'Офисные зоны' },
+        { src: './images/DSC08016.jpg', alt: 'Торговые пространства' },
+        { src: './images/DSC08023.jpg', alt: 'Современная инфраструктура' },
+        { src: './images/DSC08024.jpg', alt: 'Комфортные условия' },
+        { src: './images/DSC08025.jpg', alt: 'Профессиональная среда' },
+        { src: './images/DSC08028.jpg', alt: 'Качественные помещения' },
+        { src: './images/DSC08029.jpg', alt: 'Удобная планировка' },
+        { src: './images/DSC08031.jpg', alt: 'Современные технологии' },
+        { src: './images/DSC08034.jpg', alt: 'Премиум локация' }
+      ];
+      
+      let currentImageIndex = 0;
+      let isGalleryCollapsed = false;
+      
+      // Создание мини-галереи
+      function createMiniGallery() {
+        const thumbnailsContainer = document.getElementById('galleryThumbnails');
+        
+        images.forEach((image, index) => {
+          const thumbnail = document.createElement('img');
+          thumbnail.src = image.src;
+          thumbnail.alt = image.alt;
+          thumbnail.className = 'thumbnail';
+          thumbnail.onclick = () => openPhotoModal(index);
+          thumbnailsContainer.appendChild(thumbnail);
+        });
+      }
+      
+      // Переключение состояния галереи
+      function toggleGallery() {
+        const gallery = document.getElementById('miniGallery');
+        const toggle = document.getElementById('galleryToggle');
+        const thumbnails = document.getElementById('galleryThumbnails');
+        
+        isGalleryCollapsed = !isGalleryCollapsed;
+        
+        if (isGalleryCollapsed) {
+          gallery.classList.add('collapsed');
+          toggle.classList.add('collapsed');
+          toggle.textContent = '📸';
+          thumbnails.classList.add('collapsed');
+        } else {
+          gallery.classList.remove('collapsed');
+          toggle.classList.remove('collapsed');
+          toggle.textContent = '📸 Фотогалерея';
+          thumbnails.classList.remove('collapsed');
+        }
+      }
+      
+      // Открытие модального окна с фотографией
+      function openPhotoModal(index) {
+        currentImageIndex = index;
+        const modal = document.getElementById('photoModal');
+        const modalPhoto = document.getElementById('modalPhoto');
+        const modalInfo = document.getElementById('modalInfo');
+        
+        modal.style.display = 'block';
+        modalPhoto.src = images[index].src;
+        modalPhoto.alt = images[index].alt;
+        modalInfo.textContent = `${index + 1} из ${images.length}: ${images[index].alt}`;
+        
+        document.body.style.overflow = 'hidden';
+      }
+      
+      // Закрытие модального окна
+      function closePhotoModal() {
+        const modal = document.getElementById('photoModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+      
+      // Навигация по фотографиям
+      function showPrevPhoto() {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        const modalPhoto = document.getElementById('modalPhoto');
+        const modalInfo = document.getElementById('modalInfo');
+        
+        modalPhoto.src = images[currentImageIndex].src;
+        modalPhoto.alt = images[currentImageIndex].alt;
+        modalInfo.textContent = `${currentImageIndex + 1} из ${images.length}: ${images[currentImageIndex].alt}`;
+      }
+      
+      function showNextPhoto() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        const modalPhoto = document.getElementById('modalPhoto');
+        const modalInfo = document.getElementById('modalInfo');
+        
+        modalPhoto.src = images[currentImageIndex].src;
+        modalPhoto.alt = images[currentImageIndex].alt;
+        modalInfo.textContent = `${currentImageIndex + 1} из ${images.length}: ${images[currentImageIndex].alt}`;
+      }
+      
+      // Инициализация
+      document.addEventListener('DOMContentLoaded', function() {
+        createMiniGallery();
+        
+        // Обработчики событий
+        const galleryToggle = document.getElementById('galleryToggle');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const photoModal = document.getElementById('photoModal');
+        
+        galleryToggle.onclick = toggleGallery;
+        modalClose.onclick = closePhotoModal;
+        modalPrev.onclick = showPrevPhoto;
+        modalNext.onclick = showNextPhoto;
+        
+        // Закрытие модального окна при клике вне изображения
+        photoModal.onclick = function(e) {
+          if (e.target === photoModal) {
+            closePhotoModal();
+          }
+        };
+        
+        // Клавиатурная навигация
+        document.addEventListener('keydown', function(e) {
+          if (photoModal.style.display === 'block') {
+            if (e.key === 'Escape') {
+              closePhotoModal();
+            } else if (e.key === 'ArrowLeft') {
+              showPrevPhoto();
+            } else if (e.key === 'ArrowRight') {
+              showNextPhoto();
+            }
+          }
+        });
+        
+        // Автоматическое сворачивание галереи на мобильных устройствах
+        if (window.innerWidth <= 768) {
+          setTimeout(() => {
+            if (!isGalleryCollapsed) {
+              toggleGallery();
+            }
+          }, 3000);
+        }
+        
+        // Обработка изменения размера окна
+        window.addEventListener('resize', function() {
+          if (window.innerWidth <= 768 && !isGalleryCollapsed) {
+            // Автоматически сворачиваем на мобильных
+            setTimeout(() => {
+              if (!isGalleryCollapsed) {
+                toggleGallery();
+              }
+            }, 1000);
+          }
+        });
+      });
+    </script>
+    
+    <script>
+      var __manus_space_editor_info = {
+        spaceId: 'property-ikkkzw',
+        patchList: [],
+      };
+      
+      var __manus__global_env = {
+        "apiHost": "https://api.manus.im",
+        "host": "https://manus.im",
+        "amplitudeKey": "46ac3f9abb41dd2d17a5785e052bc6d3"
+      };
+    </script>
+  </body>
+</html>
