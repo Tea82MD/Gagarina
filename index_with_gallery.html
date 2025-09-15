@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажа коммерческой недвижимости - ТЦ Гагаринский, Ярославль</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    
+    <style>
+        /* Сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* Контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Заголовок */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./images/Фасад1.png') center/cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Навигация */
+        .nav {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .nav a {
+            color: #495057;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        /* Основной контент */
+        .main {
+            padding: 3rem 0;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Модальное окно для галереи */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .close:hover {
+            color: #bbb;
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-prev {
+            left: 20px;
+        }
+        
+        .modal-next {
+            right: 20px;
+        }
+        
+        .modal-nav:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Карточки */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h3 {
+            color: #007bff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        /* Форма */
+        .form {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form input,
+        .form textarea,
+        .form select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form input:focus,
+        .form textarea:focus,
+        .form select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        /* Футер */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer a {
+            color: #74b9ff;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .gallery-item img {
+                height: 200px;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .main {
+                padding: 2rem 0;
+            }
+            
+            .section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .modal-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .modal-prev {
+                left: 10px;
+            }
+            
+            .modal-next {
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .form {
+                padding: 1rem;
+            }
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card, .gallery-item {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .card:nth-child(2), .gallery-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .card:nth-child(3), .gallery-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Улучшения доступности */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Фокус для клавиатурной навигации */
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        /* Ленивая загрузка */
+        .lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .lazy.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Заголовок -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>ТЦ Гагаринский</h1>
+                <p>Продажа коммерческой недвижимости в Ярославле</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Навигация -->
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#properties">Объекты</a></li>
+                <li><a href="#contact">Контакты</a></li>
+                <li><a href="#form">Оставить заявку</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Основной контент -->
+    <main class="main">
+        <div class="container">
+            <!-- О нас -->
+            <section id="about" class="section">
+                <h2>О торговом центре "Гагаринский"</h2>
+                <p style="text-align: center; font-size: 1.1rem; color: #6c757d; max-width: 800px; margin: 0 auto;">
+                    Современный торговый центр в центре Ярославля предлагает выгодные условия для аренды 
+                    коммерческих помещений. Удобное расположение, развитая инфраструктура и высокий 
+                    трафик покупателей делают наш ТЦ идеальным местом для вашего бизнеса.
+                </p>
+            </section>
+            
+            <!-- Галерея -->
+            <section id="gallery" class="section">
+                <h2>Фотогалерея</h2>
+                <div class="gallery" id="gallery-container">
+                    <!-- Галерея будет заполнена JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Объекты -->
+            <section id="properties" class="section">
+                <h2>Доступные объекты</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Торговые площади</h3>
+                        <p>Просторные торговые залы от 50 до 500 м² с современным дизайном и удобной планировкой.</p>
+                        <div class="price">от 1 500 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Офисные помещения</h3>
+                        <p>Комфортные офисы с панорамными окнами, кондиционированием и современными коммуникациями.</p>
+                        <div class="price">от 2 000 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Складские помещения</h3>
+                        <p>Функциональные складские зоны с удобными подъездными путями и системами хранения.</p>
+                        <div class="price">от 800 ₽/м²</div>
+                        <a href="#form" class="btn">Узнать подробнее</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Форма обратной связи -->
+            <section id="form" class="section">
+                <h2>Оставить заявку</h2>
+                <form class="form" action="#" method="post">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="property-type">Тип помещения</label>
+                        <select id="property-type" name="property-type">
+                            <option value="">Выберите тип</option>
+                            <option value="retail">Торговые площади</option>
+                            <option value="office">Офисные помещения</option>
+                            <option value="warehouse">Складские помещения</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="area">Площадь (м²)</label>
+                        <input type="number" id="area" name="area" min="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Дополнительная информация</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Расскажите о ваших требованиях..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Отправить заявку</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Модальное окно для галереи -->
+    <div id="modal" class="modal">
+        <span class="close">&times;</span>
+        <button class="modal-nav modal-prev" id="prevBtn">‹</button>
+        <button class="modal-nav modal-next" id="nextBtn">›</button>
+        <div class="modal-content">
+            <img id="modalImg" src="" alt="">
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>ТЦ Гагаринский</strong></p>
+            <p>Ярославль, ул. Гагарина, д. 1</p>
+            <p>Телефон: <a href="tel:+74852234567">+7 (4852) 23-45-67</a></p>
+            <p>Email: <a href="mailto:info@gagarinsky.ru">info@gagarinsky.ru</a></p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                © 2024 ТЦ Гагаринский. Все права защищены.
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // Список изображений
+        const images = [
+            { src: './images/Фасад1.png', alt: 'Фасад торгового центра Гагаринский' },
+            { src: './images/DSC07977.jpg', alt: 'Внутренний вид торгового центра' },
+            { src: './images/DSC07978.jpg', alt: 'Торговые площади' },
+            { src: './images/DSC07995.jpg', alt: 'Офисные помещения' },
+            { src: './images/DSC08009.jpg', alt: 'Современный дизайн интерьера' },
+            { src: './images/DSC08010.jpg', alt: 'Торговые залы' },
+            { src: './images/DSC08011.jpg', alt: 'Просторные помещения' },
+            { src: './images/DSC08012.jpg', alt: 'Коммерческие площади' },
+            { src: './images/DSC08014.jpg', alt: 'Офисные зоны' },
+            { src: './images/DSC08016.jpg', alt: 'Торговые пространства' },
+            { src: './images/DSC08023.jpg', alt: 'Современная инфраструктура' },
+            { src: './images/DSC08024.jpg', alt: 'Комфортные условия' },
+            { src: './images/DSC08025.jpg', alt: 'Профессиональная среда' },
+            { src: './images/DSC08028.jpg', alt: 'Качественные помещения' },
+            { src: './images/DSC08029.jpg', alt: 'Удобная планировка' },
+            { src: './images/DSC08031.jpg', alt: 'Современные технологии' },
+            { src: './images/DSC08034.jpg', alt: 'Премиум локация' }
+        ];
+        
+        let currentImageIndex = 0;
+        
+        // Создание галереи
+        function createGallery() {
+            const galleryContainer = document.getElementById('gallery-container');
+            
+            images.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.onclick = () => openModal(index);
+                
+                const img = document.createElement('img');
+                img.src = image.src;
+                img.alt = image.alt;
+                img.className = 'lazy';
+                img.loading = 'lazy';
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'gallery-overlay';
+                overlay.innerHTML = `<h4>${image.alt}</h4>`;
+                
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(overlay);
+                galleryContainer.appendChild(galleryItem);
+                
+                // Ленивая загрузка
+                img.onload = () => {
+                    img.classList.add('loaded');
+                };
+            });
+        }
+        
+        // Открытие модального окна
+        function openModal(index) {
+            currentImageIndex = index;
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            
+            modal.style.display = 'block';
+            modalImg.src = images[index].src;
+            modalImg.alt = images[index].alt;
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Закрытие модального окна
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Навигация по галерее
+        function showPrev() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('modalImg').src = images[currentImageIndex].src;
+            document.getElementById('modalImg').alt = images[currentImageIndex].alt;
+        }
+        
+        function showNext() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('modalImg').src = images[currentImageIndex].src;
+            document.getElementById('modalImg').alt = images[currentImageIndex].alt;
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            createGallery();
+            
+            // Плавная прокрутка для ссылок навигации
+            const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Обработка формы
+            const form = document.querySelector('.form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+                    
+                    if (!data.name || !data.phone) {
+                        alert('Пожалуйста, заполните обязательные поля (имя и телефон)');
+                        return;
+                    }
+                    
+                    alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+                    this.reset();
+                });
+            }
+            
+            // Модальное окно
+            const modal = document.getElementById('modal');
+            const closeBtn = document.querySelector('.close');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            closeBtn.onclick = closeModal;
+            prevBtn.onclick = showPrev;
+            nextBtn.onclick = showNext;
+            
+            modal.onclick = function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            };
+            
+            // Клавиатурная навигация
+            document.addEventListener('keydown', function(e) {
+                if (modal.style.display === 'block') {
+                    if (e.key === 'Escape') {
+                        closeModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        showPrev();
+                    } else if (e.key === 'ArrowRight') {
+                        showNext();
+                    }
+                }
+            });
+            
+            // Добавляем класс для определения типа устройства
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile-device');
+            } else {
+                document.body.classList.add('desktop-device');
+            }
+            
+            // Обработка изменения размера окна
+            window.addEventListener('resize', function() {
+                if (window.innerWidth <= 768) {
+                    document.body.classList.remove('desktop-device');
+                    document.body.classList.add('mobile-device');
+                } else {
+                    document.body.classList.remove('mobile-device');
+                    document.body.classList.add('desktop-device');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
