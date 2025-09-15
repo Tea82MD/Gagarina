@@ -321,6 +321,134 @@
             outline: 2px solid #007bff;
             outline-offset: 2px;
         }
+        
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Модальное окно для галереи */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .close:hover {
+            color: #bbb;
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-prev {
+            left: 20px;
+        }
+        
+        .modal-next {
+            right: 20px;
+        }
+        
+        .modal-nav:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -337,6 +465,7 @@
         <div class="container">
             <ul>
                 <li><a href="#about">О нас</a></li>
+                <li><a href="#gallery">Галерея</a></li>
                 <li><a href="#properties">Объекты</a></li>
                 <li><a href="#contact">Контакты</a></li>
                 <li><a href="#form">Оставить заявку</a></li>
@@ -355,6 +484,17 @@
                     коммерческих помещений. Удобное расположение, развитая инфраструктура и высокий 
                     трафик покупателей делают наш ТЦ идеальным местом для вашего бизнеса.
                 </p>
+            </section>
+            
+            <!-- Галерея -->
+            <section id="gallery" class="section">
+                <h2>Фотогалерея</h2>
+                <p style="text-align: center; font-size: 1.1rem; color: #6c757d; margin-bottom: 2rem;">
+                    Посмотрите на помещение изнутри
+                </p>
+                <div class="gallery" id="gallery-container">
+                    <!-- Галерея будет заполнена JavaScript -->
+                </div>
             </section>
             
             <!-- Объекты -->
@@ -429,6 +569,16 @@
         </div>
     </main>
     
+    <!-- Модальное окно для галереи -->
+    <div id="modal" class="modal">
+        <span class="close">&times;</span>
+        <button class="modal-nav modal-prev" id="prevBtn">‹</button>
+        <button class="modal-nav modal-next" id="nextBtn">›</button>
+        <div class="modal-content">
+            <img id="modalImg" src="" alt="">
+        </div>
+    </div>
+    
     <!-- Футер -->
     <footer class="footer">
         <div class="container">
@@ -443,8 +593,89 @@
     </footer>
     
     <script>
+        // Список изображений
+        const images = [
+            { src: './images/Фасад1.png', alt: 'Фасад торгового центра Гагаринский' },
+            { src: './images/DSC07977.jpg', alt: 'Внутренний вид торгового центра' },
+            { src: './images/DSC07978.jpg', alt: 'Торговые площади' },
+            { src: './images/DSC07995.jpg', alt: 'Офисные помещения' },
+            { src: './images/DSC08009.jpg', alt: 'Современный дизайн интерьера' },
+            { src: './images/DSC08010.jpg', alt: 'Торговые залы' },
+            { src: './images/DSC08011.jpg', alt: 'Просторные помещения' },
+            { src: './images/DSC08012.jpg', alt: 'Коммерческие площади' },
+            { src: './images/DSC08014.jpg', alt: 'Офисные зоны' },
+            { src: './images/DSC08016.jpg', alt: 'Торговые пространства' },
+            { src: './images/DSC08023.jpg', alt: 'Современная инфраструктура' },
+            { src: './images/DSC08024.jpg', alt: 'Комфортные условия' },
+            { src: './images/DSC08025.jpg', alt: 'Профессиональная среда' },
+            { src: './images/DSC08028.jpg', alt: 'Качественные помещения' },
+            { src: './images/DSC08029.jpg', alt: 'Удобная планировка' },
+            { src: './images/DSC08031.jpg', alt: 'Современные технологии' },
+            { src: './images/DSC08034.jpg', alt: 'Премиум локация' }
+        ];
+        
+        let currentImageIndex = 0;
+        
+        // Создание галереи
+        function createGallery() {
+            const galleryContainer = document.getElementById('gallery-container');
+            
+            images.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.onclick = () => openModal(index);
+                
+                const img = document.createElement('img');
+                img.src = image.src;
+                img.alt = image.alt;
+                img.loading = 'lazy';
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'gallery-overlay';
+                overlay.innerHTML = `<h4>${image.alt}</h4>`;
+                
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(overlay);
+                galleryContainer.appendChild(galleryItem);
+            });
+        }
+        
+        // Открытие модального окна
+        function openModal(index) {
+            currentImageIndex = index;
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            
+            modal.style.display = 'block';
+            modalImg.src = images[index].src;
+            modalImg.alt = images[index].alt;
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Закрытие модального окна
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Навигация по галерее
+        function showPrev() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('modalImg').src = images[currentImageIndex].src;
+            document.getElementById('modalImg').alt = images[currentImageIndex].alt;
+        }
+        
+        function showNext() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('modalImg').src = images[currentImageIndex].src;
+            document.getElementById('modalImg').alt = images[currentImageIndex].alt;
+        }
+        
         // Простая JavaScript функциональность
         document.addEventListener('DOMContentLoaded', function() {
+            createGallery();
             // Плавная прокрутка для ссылок навигации
             const navLinks = document.querySelectorAll('.nav a[href^="#"]');
             navLinks.forEach(link => {
@@ -482,6 +713,35 @@
                     this.reset();
                 });
             }
+            
+            // Модальное окно
+            const modal = document.getElementById('modal');
+            const closeBtn = document.querySelector('.close');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            closeBtn.onclick = closeModal;
+            prevBtn.onclick = showPrev;
+            nextBtn.onclick = showNext;
+            
+            modal.onclick = function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            };
+            
+            // Клавиатурная навигация
+            document.addEventListener('keydown', function(e) {
+                if (modal.style.display === 'block') {
+                    if (e.key === 'Escape') {
+                        closeModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        showPrev();
+                    } else if (e.key === 'ArrowRight') {
+                        showNext();
+                    }
+                }
+            });
             
             // Добавляем класс для определения типа устройства
             if (window.innerWidth <= 768) {
